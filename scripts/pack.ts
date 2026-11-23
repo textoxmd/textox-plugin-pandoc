@@ -4,10 +4,10 @@
  *
  * 用法：`bun run build && bun scripts/pack.ts`
  */
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { packPluginFiles, packPluginPath } from '@textox/plugin-build';
+import { findAutoIcon, packPluginFiles, packPluginPath } from '@textox/plugin-build';
 
 import config from '../plugin.config';
 
@@ -33,7 +33,10 @@ if (!('pandoc.wasm' in files)) {
   throw new Error('dist/pandoc.wasm is missing — run `bun run build` first');
 }
 
-const archive = packPluginFiles(config, files);
+// 图标按约定放在 `assets/icon.*`，`plugin.config.ts` 不再重复声明；
+// 打包时补进清单，否则 zip 里的 manifest 会丢 `icon`。
+const icon = findAutoIcon(pluginDir, existsSync) ?? config.icon;
+const archive = packPluginFiles(icon ? { ...config, icon } : config, files);
 const target = packPluginPath(pluginDir, config);
 writeFileSync(target, archive);
 console.log(`packed ${config.id} -> ${target} (${(archive.byteLength / 1024 / 1024).toFixed(1)}MB)`);

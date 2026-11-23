@@ -40,8 +40,8 @@ bun run pack      # 产出 dist/app.textox.pandoc-<version>.zip
 ```
 
 - 插件契约来自 npm 上的 `@textox/plugin-sdk@^0.4.0` 与 `@textox/plugin-build@^0.1.5`，克隆后直接 `bun install` 即可。
-- 图标：把 `icon.svg` / `icon.png` 放进项目根或 `assets/` 即会被构建工具自动识别；
-  本插件没有品牌图，使用 lucide 的 `file-output`。
+- 图标：`assets/icon.svg` 会被构建工具自动识别并写入清单；内容取自 pandoc 官网
+  favicon（作者 Albert Krewinkel，CC BY-SA 4.0），已在文件内保留许可元数据。
 - `dist/pandoc.wasm` 由 `scripts/copy-wasm.ts` 从 `node_modules/pandoc-wasm` 复制，不入库。
 
 ## 体积与许可

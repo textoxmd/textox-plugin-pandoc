@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { defineLocaleContract } from '../../../test-utils/locales';
+import { defineLocaleContract } from '../test-utils/locales';
 import { defaultLocale, locales } from './locales';
 
 defineLocaleContract({

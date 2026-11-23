@@ -1,0 +1,5 @@
+node_modules/
+dist/pandoc.wasm
+dist/*.zip
+*.log
+.DS_Store

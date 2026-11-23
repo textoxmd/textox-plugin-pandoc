@@ -6,15 +6,19 @@
   "scripts": {
     "build": "texto-plugin build . && bun scripts/emit-locales.ts && bun scripts/copy-wasm.ts",
     "pack": "bun run build && bun scripts/pack.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@bjorn3/browser_wasi_shim": "^0.4.2",
-    "@textox/plugin-sdk": "file:../../../../Textox/vendor/plugin-sdk",
+    "@textox/plugin-sdk": "file:../../Textox/vendor/plugin-sdk",
     "pandoc-wasm": "^1.1.0"
   },
   "devDependencies": {
     "@tauri-apps/api": "^2.11.0",
-    "@textox/plugin-build": "file:../../../../Textox/packages/plugin-build"
+    "@textox/plugin-build": "file:../../Textox/packages/plugin-build",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.2"
   }
 }

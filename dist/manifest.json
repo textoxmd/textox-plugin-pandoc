@@ -1,0 +1,39 @@
+{
+  "id": "app.textox.pandoc",
+  "name": "Pandoc Export",
+  "version": "1.0.0",
+  "minAppVersion": "2.4.0",
+  "author": {
+    "name": "Textox",
+    "id": "textox"
+  },
+  "description": "Convert the current document to Word, OpenDocument, RTF or LaTeX with Pandoc",
+  "category": "export",
+  "icon": "file-output",
+  "defaultEnabled": false,
+  "settings": [
+    {
+      "key": "toc",
+      "type": "boolean",
+      "labelKey": "toc",
+      "descriptionKey": "tocDesc",
+      "default": false,
+      "group": "pandoc",
+      "groupLabelKey": "sectionTitle",
+      "apply": "immediate"
+    },
+    {
+      "key": "numberSections",
+      "type": "boolean",
+      "labelKey": "numberSections",
+      "descriptionKey": "numberSectionsDesc",
+      "default": false,
+      "group": "pandoc",
+      "groupLabelKey": "sectionTitle",
+      "apply": "immediate"
+    }
+  ],
+  "builtAgainst": {
+    "@textox/plugin-sdk": "0.4.0"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@textox/plugin-pandoc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "texto-plugin build . && bun scripts/emit-locales.ts && bun scripts/copy-wasm.ts",
+    "pack": "texto-plugin pack .",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@bjorn3/browser_wasi_shim": "^0.4.2",
+    "@textox/plugin-sdk": "file:../../../../Textox/vendor/plugin-sdk",
+    "pandoc-wasm": "^1.1.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^2.11.0",
+    "@textox/plugin-build": "file:../../../../Textox/packages/plugin-build"
+  }
+}

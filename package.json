@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "texto-plugin build . && bun scripts/emit-locales.ts && bun scripts/copy-wasm.ts",
-    "pack": "texto-plugin pack .",
+    "pack": "bun run build && bun scripts/pack.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

@@ -11,7 +11,7 @@
       },
       "devDependencies": {
         "@tauri-apps/api": "^2.11.0",
-        "@textox/plugin-build": "^0.1.5",
+        "@textox/plugin-build": "^0.1.7",
         "@types/node": "^22.10.2",
         "typescript": "^5.8.2",
         "vitest": "^3.1.2",
@@ -129,7 +129,7 @@
 
     "@tauri-apps/api": ["@tauri-apps/api@2.12.5", "https://mirrors.cloud.tencent.com/npm/@tauri-apps/api/-/api-2.12.5.tgz", {}, "sha512-G9QIMt5fzED+aS4QhVK3w1HWLKpLIwH/MnpCr9z1ugGEHnS2ORmqrLkc0uALOjRK4qXJy+4Yiw8LDl/KicC1Hg=="],
 
-    "@textox/plugin-build": ["@textox/plugin-build@0.1.5", "", { "dependencies": { "@textox/plugin-sdk": "^0.3.0", "fflate": "^0.8.2", "vite": "^6.0.3" }, "bin": { "texto-plugin": "dist/cli.js" } }, "sha512-4zixv+t2MzEGOYifyz9C2VfYYX39m9OjezuB22GWeF3jm3bz4+Cel5yCV/55iCeec1vyZLzG0mndFqeqHc8Ktg=="],
+    "@textox/plugin-build": ["@textox/plugin-build@0.1.7", "", { "dependencies": { "@textox/plugin-sdk": "^0.3.0", "fflate": "^0.8.2", "vite": "^6.0.3" }, "bin": { "texto-plugin": "dist/cli.js" } }, "sha512-pSgT3tLghSevpSknFtyp45ACQi0o7TTeO/dT3VsyLyWFaHQejoMkqfYN4PxSCG31BQ1l6QBnkZn39VUOnqS+pA=="],
 
     "@textox/plugin-sdk": ["@textox/plugin-sdk@0.4.0", "", { "dependencies": { "@types/markdown-it": "^14.1.2", "highlight.js": "^11.11.1", "markdown-it": "^14.1.1", "prosemirror-inputrules": "^1.5.1", "prosemirror-model": "^1.25.4", "prosemirror-state": "^1.4.4", "prosemirror-view": "^1.41.6" } }, "sha512-92HRo0+8CBQeR3FeUJg+u8QaQWZ6KiYc+AWihkBvHShphAXMs3j3ZrZug6y2T8SlBcVx6ys3adfOZoO7aHIUAw=="],
 

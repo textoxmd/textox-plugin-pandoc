@@ -4,7 +4,7 @@ import { createExporters } from './exporters';
 import { defaultLocale, locales } from './locales';
 
 /**
- * Pandoc 导出：把当前文档转成 Word / OpenDocument / RTF / LaTeX。
+ * Pandoc 导出：把当前文档转成 EPUB / Word / OpenDocument / RTF / LaTeX。
  *
  * 转换在插件内用 pandoc 的 WASM 完成（`dist/pandoc.wasm`），不依赖用户安装原生
  * Pandoc——macOS 沙盒里外部二进制跑不起来。

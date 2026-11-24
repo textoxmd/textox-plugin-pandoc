@@ -1,4 +1,4 @@
-export type PandocFormat = 'docx' | 'odt' | 'rtf' | 'latex';
+export type PandocFormat = 'epub' | 'docx' | 'odt' | 'rtf' | 'latex';
 
 export interface PandocSettings {
   toc: boolean;
@@ -9,6 +9,7 @@ export interface PandocSettings {
 export const PANDOC_FROM = 'gfm+tex_math_dollars+footnotes';
 
 const OUTPUT_NAMES: Record<PandocFormat, string> = {
+  epub: 'out.epub',
   docx: 'out.docx',
   odt: 'out.odt',
   rtf: 'out.rtf',
@@ -16,6 +17,7 @@ const OUTPUT_NAMES: Record<PandocFormat, string> = {
 };
 
 const EXTENSIONS: Record<PandocFormat, string> = {
+  epub: 'epub',
   docx: 'docx',
   odt: 'odt',
   rtf: 'rtf',

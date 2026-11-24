@@ -29,13 +29,16 @@ describe('buildPandocOptions', () => {
 
 describe('file names', () => {
   it('maps formats to output-file names and extensions', () => {
+    expect(outputFileName('epub')).toBe('out.epub');
     expect(outputFileName('odt')).toBe('out.odt');
     expect(outputFileName('rtf')).toBe('out.rtf');
+    expect(extensionFor('epub')).toBe('epub');
     expect(extensionFor('latex')).toBe('tex');
   });
 
   it('keeps the source stem but swaps the extension', () => {
     expect(suggestedName('/docs/周报.md', 'docx')).toBe('周报.docx');
+    expect(suggestedName('/docs/book.md', 'epub')).toBe('book.epub');
     expect(suggestedName('C:\\docs\\notes.markdown', 'latex')).toBe('notes.tex');
   });
 

@@ -10,8 +10,9 @@ defineLocaleContract({
 });
 
 describe('pandoc 文案细节', () => {
-  it('四种格式的标签在各语言下都是格式名 + 扩展名（专有名词不翻译）', () => {
+  it('五种格式的标签在各语言下都是格式名 + 扩展名（专有名词不翻译）', () => {
     const expected = {
+      epubLabel: 'EPUB (Pandoc)',
       docxLabel: 'Word (.docx)',
       odtLabel: 'OpenDocument (.odt)',
       rtfLabel: 'RTF (.rtf)',

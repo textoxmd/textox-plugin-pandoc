@@ -26,10 +26,14 @@ interface FormatSpec {
 }
 
 /**
- * 四种输出。`menuAction` 必须与宿主原生「导出」子菜单项的 id 一致，否则点击分派
- * 不到这里；`order` 排在 HTML（10）/ EPUB（20）之后。
+ * 五种输出。`menuAction` 必须与宿主原生「导出」子菜单项的 id 一致，否则点击分派
+ * 不到这里；`order` 排在 HTML（10）/ 内置 EPUB（20）之后。
+ *
+ * EPUB 用独立的 id / menuAction，避免和内置 `app.textox.epub-export` 的同名导出器
+ * 互相覆盖：两者同时启用时菜单里是「EPUB」与「EPUB (Pandoc)」两项。
  */
 export const FORMAT_SPECS: readonly FormatSpec[] = [
+  { format: 'epub', id: 'epub-pandoc', labelKey: 'epubLabel', menuAction: 'export_epub_pandoc', order: 21 },
   { format: 'docx', id: 'docx', labelKey: 'docxLabel', menuAction: 'export_docx', order: 30 },
   { format: 'odt', id: 'odt', labelKey: 'odtLabel', menuAction: 'export_odt', order: 40 },
   { format: 'rtf', id: 'rtf', labelKey: 'rtfLabel', menuAction: 'export_rtf', order: 50 },

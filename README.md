@@ -1,11 +1,12 @@
 # Pandoc Export — Textox 插件
 
-用 [Pandoc](https://pandoc.org)（WASM 版）把当前文档导出为 **Word / OpenDocument / RTF / LaTeX**。
+用 [Pandoc](https://pandoc.org)（WASM 版）把当前文档导出为 **EPUB / Word / OpenDocument / RTF / LaTeX**。
 
 ## 功能
 
 | 导出目标 | 扩展名 | 说明 |
 |---|---|---|
+| EPUB | `.epub` | Pandoc 生成的 EPUB 3；与内置 EPUB 导出并存时菜单显示为「EPUB (Pandoc)」 |
 | Word | `.docx` | 保留标题、列表、表格、图片；公式转为 Word 原生 OMML |
 | OpenDocument | `.odt` | LibreOffice / WPS 可直接打开 |
 | RTF | `.rtf` | 兼容性最好的富文本 |
@@ -15,6 +16,11 @@
 - 文档里的**本地图片**会随文档一起嵌入（相对路径按文档所在目录解析）。
 - 设置里可开启「生成目录」与「章节编号」。
 
+**与内置 EPUB 导出的区别**：内置导出基于编辑器渲染后的 DOM，Mermaid、代码高亮、Excalidraw
+都是最终视觉效果；Pandoc 版直接解析 Markdown，公式转为 MathML，Mermaid 等仍以代码块
+形式保留。需要视觉保真时用内置「EPUB」，需要与 Word/LaTeX 同一条 Pandoc 管线时用
+「EPUB (Pandoc)」。
+
 不支持 PDF：Pandoc 生成 PDF 需要外部 LaTeX / Typst / wkhtmltopdf 引擎，WASM 版无法调用。
 
 ## 安装
@@ -23,7 +29,7 @@
 或用命令行：
 
 ```sh
-plugin-cli --data-dir "<Textox 数据目录>" install dist/app.textox.pandoc-1.0.0.zip
+plugin-cli --data-dir "<Textox 数据目录>" install dist/app.textox.pandoc-1.0.2.zip
 plugin-cli --data-dir "<Textox 数据目录>" enable app.textox.pandoc
 ```
 

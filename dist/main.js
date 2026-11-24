@@ -1,20 +1,22 @@
-import { Plugin as Be } from "@textox/plugin-sdk";
+import { Plugin as ke } from "@textox/plugin-sdk";
 import { invoke as ee, convertFileSrc as ve } from "@tauri-apps/api/core";
 const We = "gfm+tex_math_dollars+footnotes", Ce = {
+  epub: "out.epub",
   docx: "out.docx",
   odt: "out.odt",
   rtf: "out.rtf",
   latex: "out.tex"
 }, ze = {
+  epub: "epub",
   docx: "docx",
   odt: "odt",
   rtf: "rtf",
   latex: "tex"
 };
-function Ue(f) {
+function Pe(f) {
   return Ce[f];
 }
-function Pe(f) {
+function De(f) {
   return ze[f];
 }
 function Xe(f, e) {
@@ -22,15 +24,15 @@ function Xe(f, e) {
     from: We,
     to: f,
     standalone: !0,
-    "output-file": Ue(f),
+    "output-file": Pe(f),
     ...e.toc ? { "table-of-contents": !0 } : {},
     ...e.numberSections ? { "number-sections": !0 } : {}
   };
 }
 function je(f, e) {
-  return `${(f?.split(/[\\/]/).pop() ?? "").replace(/\.[^.]+$/, "") || "Untitled"}.${Pe(e)}`;
+  return `${(f?.split(/[\\/]/).pop() ?? "").replace(/\.[^.]+$/, "") || "Untitled"}.${De(e)}`;
 }
-const Ae = /!\[([^\]\n]*)\]\(\s*(<[^>\n]+>|[^\s)]+)(?:\s+(["'])([^"']*)\3)?\s*\)/g, Ve = {
+const Ee = /!\[([^\]\n]*)\]\(\s*(<[^>\n]+>|[^\s)]+)(?:\s+(["'])([^"']*)\3)?\s*\)/g, Ve = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
@@ -41,7 +43,7 @@ const Ae = /!\[([^\]\n]*)\]\(\s*(<[^>\n]+>|[^\s)]+)(?:\s+(["'])([^"']*)\3)?\s*\)
   "image/tiff": "tiff",
   "image/avif": "avif"
 };
-function Ee(f) {
+function Ae(f) {
   return /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(f);
 }
 function K(f) {
@@ -66,7 +68,7 @@ function be(f) {
     }
   return `${e ? "/" : ""}${t.join("/")}`;
 }
-function Re(f, e) {
+function Be(f, e) {
   if (!e) return null;
   const t = $e(K(f));
   return /^[\\/]/.test(t) || /^[a-zA-Z]:[\\/]/.test(t) ? be(t) : be(`${e}/${t}`);
@@ -87,7 +89,7 @@ function Ke(f, e) {
   return t || (/\.([a-z0-9]+)(?:\?.*)?$/i.exec(K(e))?.[1]?.toLowerCase() ?? "png");
 }
 const Ge = (f) => ee("read_image_as_data_url", { path: f });
-function Se(f, e) {
+function Re(f, e) {
   let t = null;
   return f.split(`
 `).map((i) => {
@@ -96,7 +98,7 @@ function Se(f, e) {
   }).join(`
 `);
 }
-function Fe(f, e) {
+function Se(f, e) {
   let t = "", i = 0;
   for (const l of f.matchAll(/(`+)[\s\S]*?\1/g)) {
     const n = l.index ?? 0;
@@ -106,13 +108,13 @@ function Fe(f, e) {
 }
 function Ye(f, e) {
   const t = /* @__PURE__ */ new Set();
-  return Se(
+  return Re(
     f,
-    (i) => Fe(i, (l) => {
-      for (const n of l.matchAll(Ae)) {
+    (i) => Se(i, (l) => {
+      for (const n of l.matchAll(Ee)) {
         const r = n[2];
-        if (!r || Ee(K(r))) continue;
-        const s = Re(r, e);
+        if (!r || Ae(K(r))) continue;
+        const s = Be(r, e);
         s && t.add(s);
       }
       return l;
@@ -130,15 +132,15 @@ async function He(f, e, t = Ge) {
     } catch (a) {
       console.warn(`[pandoc] failed to read image ${o}:`, a);
     }
-  return l.size === 0 ? { markdown: f, files: i } : { markdown: Se(
+  return l.size === 0 ? { markdown: f, files: i } : { markdown: Re(
     f,
-    (s) => Fe(
+    (s) => Se(
       s,
       (o) => o.replace(
-        Ae,
+        Ee,
         (a, c, d, _, p) => {
-          if (Ee(K(d))) return a;
-          const b = Re(d, e), h = b ? l.get(b) : void 0;
+          if (Ae(K(d))) return a;
+          const b = Be(d, e), h = b ? l.get(b) : void 0;
           if (!h) return a;
           const u = _ ? `${h} ${_}${p ?? ""}${_}` : h;
           return `![${c}](${u})`;
@@ -147,7 +149,7 @@ async function He(f, e, t = Ge) {
     )
   ), files: i };
 }
-const Je = "app.textox.pandoc", Y = 0, H = 1, y = 0, m = 8, V = 20, k = 28, ge = 31, Ze = 37, O = 44, Qe = 52, R = 54, ye = 55, w = 58, Q = 63, we = 76, q = 64;
+const Je = "app.textox.pandoc", Y = 0, H = 1, y = 0, m = 8, V = 20, I = 28, ge = 31, Ze = 37, F = 44, Qe = 52, B = 54, ye = 55, w = 58, Q = 63, we = 76, q = 64;
 class W {
   static read_bytes(e, t) {
     const i = new W();
@@ -172,7 +174,7 @@ class C {
     return l;
   }
 }
-const qe = 0, et = 1, Oe = 2, xe = 2, D = 3, $ = 4;
+const qe = 0, et = 1, Fe = 2, xe = 2, U = 3, $ = 4;
 class J {
   head_length() {
     return 24;
@@ -200,7 +202,7 @@ class te {
     this.fs_rights_base = 0n, this.fs_rights_inherited = 0n, this.fs_filetype = e, this.fs_flags = t;
   }
 }
-const Z = 1, v = 2, Te = 4, Le = 8;
+const Z = 1, v = 2, Le = 4, Te = 8;
 class ne {
   write_bytes(e, t) {
     e.setBigUint64(t, this.dev, !0), e.setBigUint64(t + 8, this.ino, !0), e.setUint8(t + 16, this.filetype), e.setBigUint64(t + 24, this.nlink, !0), e.setBigUint64(t + 32, this.size, !0), e.setBigUint64(t + 38, this.atim, !0), e.setBigUint64(t + 46, this.mtim, !0), e.setBigUint64(t + 52, this.ctim, !0);
@@ -260,7 +262,7 @@ function ct(f, e) {
   };
 }
 const x = new at(!1);
-class De extends Error {
+class Ue extends Error {
   constructor(e) {
     super("exit with exit code " + e), this.code = e;
   }
@@ -271,7 +273,7 @@ let ft = class {
     try {
       return e.exports._start(), 0;
     } catch (t) {
-      if (t instanceof De)
+      if (t instanceof Ue)
         return t.code;
       throw t;
     }
@@ -411,10 +413,10 @@ let ft = class {
         const p = C.read_bytes_array(d, s, o);
         let b = 0;
         for (const h of p) {
-          const u = _.slice(h.buf, h.buf + h.buf_len), { ret: g, nwritten: L } = n.fds[r].fd_pwrite(u, a);
+          const u = _.slice(h.buf, h.buf + h.buf_len), { ret: g, nwritten: T } = n.fds[r].fd_pwrite(u, a);
           if (g != y)
             return d.setUint32(c, b, !0), g;
-          if (b += L, a += BigInt(L), L != u.byteLength)
+          if (b += T, a += BigInt(T), T != u.byteLength)
             break;
         }
         return d.setUint32(c, b, !0), y;
@@ -529,10 +531,10 @@ let ft = class {
       if (n.fds[r] != null) {
         const g = new TextDecoder("utf-8").decode(u.slice(o, o + a));
         x.log(g);
-        const { ret: L, fd_obj: U } = n.fds[r].path_open(s, g, c, d, _, p);
-        if (L != 0)
-          return L;
-        n.fds.push(U);
+        const { ret: T, fd_obj: P } = n.fds[r].path_open(s, g, c, d, _, p);
+        if (T != 0)
+          return T;
+        n.fds.push(P);
         const G = n.fds.length - 1;
         return h.setUint32(b, G, !0), 0;
       } else
@@ -583,7 +585,7 @@ let ft = class {
         return m;
     }, poll_oneoff(r, s, o) {
       if (o === 0)
-        return k;
+        return I;
       if (o > 1)
         return x.log("poll_oneoff: only a single subscription is supported"), w;
       const a = new DataView(n.inst.exports.memory.buffer), c = re.read_bytes(a, r), d = c.eventtype, _ = c.clockid, p = c.timeout;
@@ -595,13 +597,13 @@ let ft = class {
       else if (_ === Y)
         b = () => BigInt((/* @__PURE__ */ new Date()).getTime()) * 1000000n;
       else
-        return k;
+        return I;
       const h = (c.flags & rt) !== 0 ? p : b() + p;
       for (; h > b(); )
         ;
       return new st(c.userdata, y, d).write_bytes(a, s), y;
     }, proc_exit(r) {
-      throw new De(r);
+      throw new Ue(r);
     }, proc_raise(r) {
       throw "raised signal " + r;
     }, sched_yield() {
@@ -695,7 +697,7 @@ class ie {
     return { ret: w, inode_obj: null };
   }
   path_open(e, t, i, l, n, r) {
-    return { ret: R, fd_obj: null };
+    return { ret: B, fd_obj: null };
   }
   path_readlink(e) {
     return { ret: w, data: null };
@@ -710,19 +712,19 @@ class ie {
     return w;
   }
 }
-class S {
+class R {
   static issue_ino() {
-    return S.next_ino++;
+    return R.next_ino++;
   }
   static root_ino() {
     return 0n;
   }
   constructor() {
-    this.ino = S.issue_ino();
+    this.ino = R.issue_ino();
   }
 }
-S.next_ino = 1n;
-class Ne extends ie {
+R.next_ino = 1n;
+class Oe extends ie {
   fd_allocate(e, t) {
     if (!(this.file.size > e + t)) {
       const i = new Uint8Array(Number(e + t));
@@ -758,13 +760,13 @@ class Ne extends ie {
       case et:
         i = this.file_pos + e;
         break;
-      case Oe:
+      case Fe:
         i = BigInt(this.file.data.byteLength) + e;
         break;
       default:
-        return { ret: k, offset: 0n };
+        return { ret: I, offset: 0n };
     }
-    return i < 0 ? { ret: k, offset: 0n } : (this.file_pos = i, { ret: 0, offset: this.file_pos });
+    return i < 0 ? { ret: I, offset: 0n } : (this.file_pos = i, { ret: 0, offset: this.file_pos });
   }
   fd_tell() {
     return { ret: 0, offset: this.file_pos };
@@ -792,7 +794,7 @@ class Ne extends ie {
     super(), this.file_pos = 0n, this.file = e;
   }
 }
-class Ie extends ie {
+class Ne extends ie {
   fd_seek(e, t) {
     return { ret: m, offset: 0n };
   }
@@ -803,39 +805,39 @@ class Ie extends ie {
     return m;
   }
   fd_fdstat_get() {
-    return { ret: 0, fdstat: new te(D, 0) };
+    return { ret: 0, fdstat: new te(U, 0) };
   }
   fd_readdir_single(e) {
     if (x.enabled && (x.log("readdir_single", e), x.log(e, this.dir.contents.keys())), e == 0n)
-      return { ret: y, dirent: new J(1n, this.dir.ino, ".", D) };
+      return { ret: y, dirent: new J(1n, this.dir.ino, ".", U) };
     if (e == 1n)
-      return { ret: y, dirent: new J(2n, this.dir.parent_ino(), "..", D) };
+      return { ret: y, dirent: new J(2n, this.dir.parent_ino(), "..", U) };
     if (e >= BigInt(this.dir.contents.size) + 2n)
       return { ret: 0, dirent: null };
     const [t, i] = Array.from(this.dir.contents.entries())[Number(e - 2n)];
     return { ret: 0, dirent: new J(e + 1n, i.ino, t, i.stat().filetype) };
   }
   path_filestat_get(e, t) {
-    const { ret: i, path: l } = E.from(t);
+    const { ret: i, path: l } = A.from(t);
     if (l == null)
       return { ret: i, filestat: null };
     const { ret: n, entry: r } = this.dir.get_entry_for_path(l);
     return r == null ? { ret: n, filestat: null } : { ret: 0, filestat: r.stat() };
   }
   path_lookup(e, t) {
-    const { ret: i, path: l } = E.from(e);
+    const { ret: i, path: l } = A.from(e);
     if (l == null)
       return { ret: i, inode_obj: null };
     const { ret: n, entry: r } = this.dir.get_entry_for_path(l);
     return r == null ? { ret: n, inode_obj: null } : { ret: y, inode_obj: r };
   }
   path_open(e, t, i, l, n, r) {
-    const { ret: s, path: o } = E.from(t);
+    const { ret: s, path: o } = A.from(t);
     if (o == null)
       return { ret: s, fd_obj: null };
     let { ret: a, entry: c } = this.dir.get_entry_for_path(o);
     if (c == null) {
-      if (a != O)
+      if (a != F)
         return { ret: a, fd_obj: null };
       if ((i & Z) == Z) {
         const { ret: d, entry: _ } = this.dir.create_entry_for_path(t, (i & v) == v);
@@ -843,60 +845,60 @@ class Ie extends ie {
           return { ret: d, fd_obj: null };
         c = _;
       } else
-        return { ret: O, fd_obj: null };
-    } else if ((i & Te) == Te)
+        return { ret: F, fd_obj: null };
+    } else if ((i & Le) == Le)
       return { ret: V, fd_obj: null };
-    return (i & v) == v && c.stat().filetype !== D ? { ret: R, fd_obj: null } : c.path_open(i, l, r);
+    return (i & v) == v && c.stat().filetype !== U ? { ret: B, fd_obj: null } : c.path_open(i, l, r);
   }
   path_create_directory(e) {
     return this.path_open(0, e, Z | v, 0n, 0n, 0).ret;
   }
   path_link(e, t, i) {
-    const { ret: l, path: n } = E.from(e);
+    const { ret: l, path: n } = A.from(e);
     if (n == null)
       return l;
     if (n.is_dir)
-      return O;
+      return F;
     const { ret: r, parent_entry: s, filename: o, entry: a } = this.dir.get_parent_dir_and_entry_for_path(n, !0);
     if (s == null || o == null)
       return r;
     if (a != null) {
-      const c = t.stat().filetype == D, d = a.stat().filetype == D;
+      const c = t.stat().filetype == U, d = a.stat().filetype == U;
       if (c && d)
-        if (i && a instanceof A) {
+        if (i && a instanceof E) {
           if (a.contents.size != 0) return ye;
         } else
           return V;
       else {
         if (c && !d)
-          return R;
+          return B;
         if (!c && d)
           return ge;
         if (!(t.stat().filetype == $ && a.stat().filetype == $)) return V;
       }
     }
-    return !i && t.stat().filetype == D ? Q : (s.contents.set(o, t), y);
+    return !i && t.stat().filetype == U ? Q : (s.contents.set(o, t), y);
   }
   path_unlink(e) {
-    const { ret: t, path: i } = E.from(e);
+    const { ret: t, path: i } = A.from(e);
     if (i == null)
       return { ret: t, inode_obj: null };
     const { ret: l, parent_entry: n, filename: r, entry: s } = this.dir.get_parent_dir_and_entry_for_path(i, !0);
-    return n == null || r == null ? { ret: l, inode_obj: null } : s == null ? { ret: O, inode_obj: null } : (n.contents.delete(r), { ret: y, inode_obj: s });
+    return n == null || r == null ? { ret: l, inode_obj: null } : s == null ? { ret: F, inode_obj: null } : (n.contents.delete(r), { ret: y, inode_obj: s });
   }
   path_unlink_file(e) {
-    const { ret: t, path: i } = E.from(e);
+    const { ret: t, path: i } = A.from(e);
     if (i == null)
       return t;
     const { ret: l, parent_entry: n, filename: r, entry: s } = this.dir.get_parent_dir_and_entry_for_path(i, !1);
-    return n == null || r == null || s == null ? l : s.stat().filetype === D ? ge : (n.contents.delete(r), y);
+    return n == null || r == null || s == null ? l : s.stat().filetype === U ? ge : (n.contents.delete(r), y);
   }
   path_remove_directory(e) {
-    const { ret: t, path: i } = E.from(e);
+    const { ret: t, path: i } = A.from(e);
     if (i == null)
       return t;
     const { ret: l, parent_entry: n, filename: r, entry: s } = this.dir.get_parent_dir_and_entry_for_path(i, !1);
-    return n == null || r == null || s == null ? l : !(s instanceof A) || s.stat().filetype !== D ? R : s.contents.size !== 0 ? ye : n.contents.delete(r) ? y : O;
+    return n == null || r == null || s == null ? l : !(s instanceof E) || s.stat().filetype !== U ? B : s.contents.size !== 0 ? ye : n.contents.delete(r) ? y : F;
   }
   fd_filestat_get() {
     return { ret: 0, filestat: this.dir.stat() };
@@ -920,24 +922,24 @@ class Ie extends ie {
     super(), this.dir = e;
   }
 }
-class lt extends Ie {
+class lt extends Ne {
   fd_prestat_get() {
     return { ret: 0, prestat: se.dir(this.prestat_name) };
   }
   constructor(e, t) {
-    super(new A(t)), this.prestat_name = e;
+    super(new E(t)), this.prestat_name = e;
   }
 }
-class P extends S {
+class D extends R {
   path_open(e, t, i) {
     if (this.readonly && (t & BigInt(q)) == BigInt(q))
       return { ret: Q, fd_obj: null };
-    if ((e & Le) == Le) {
+    if ((e & Te) == Te) {
       if (this.readonly) return { ret: Q, fd_obj: null };
       this.data = new Uint8Array([]);
     }
-    const l = new Ne(this);
-    return i & tt && l.fd_seek(0n, Oe), { ret: y, fd_obj: l };
+    const l = new Oe(this);
+    return i & tt && l.fd_seek(0n, Fe), { ret: y, fd_obj: l };
   }
   get size() {
     return BigInt(this.data.byteLength);
@@ -949,13 +951,13 @@ class P extends S {
     super(), this.data = new Uint8Array(e), this.readonly = !!t?.readonly;
   }
 }
-let E = class ke {
+let A = class Ie {
   static from(e) {
-    const t = new ke();
+    const t = new Ie();
     if (t.is_dir = e.endsWith("/"), e.startsWith("/"))
       return { ret: we, path: null };
     if (e.includes("\0"))
-      return { ret: k, path: null };
+      return { ret: I, path: null };
     for (const i of e.split("/"))
       if (!(i === "" || i === ".")) {
         if (i === "..") {
@@ -975,43 +977,43 @@ let E = class ke {
     this.parts = [], this.is_dir = !1;
   }
 };
-class A extends S {
+class E extends R {
   parent_ino() {
-    return this.parent == null ? S.root_ino() : this.parent.ino;
+    return this.parent == null ? R.root_ino() : this.parent.ino;
   }
   path_open(e, t, i) {
-    return { ret: y, fd_obj: new Ie(this) };
+    return { ret: y, fd_obj: new Ne(this) };
   }
   stat() {
-    return new ne(this.ino, D, 0n);
+    return new ne(this.ino, U, 0n);
   }
   get_entry_for_path(e) {
     let t = this;
     for (const i of e.parts) {
-      if (!(t instanceof A))
-        return { ret: R, entry: null };
+      if (!(t instanceof E))
+        return { ret: B, entry: null };
       const l = t.contents.get(i);
       if (l !== void 0)
         t = l;
       else
-        return x.log(i), { ret: O, entry: null };
+        return x.log(i), { ret: F, entry: null };
     }
-    return e.is_dir && t.stat().filetype != D ? { ret: R, entry: null } : { ret: y, entry: t };
+    return e.is_dir && t.stat().filetype != U ? { ret: B, entry: null } : { ret: y, entry: t };
   }
   get_parent_dir_and_entry_for_path(e, t) {
     const i = e.parts.pop();
     if (i === void 0)
-      return { ret: k, parent_entry: null, filename: null, entry: null };
+      return { ret: I, parent_entry: null, filename: null, entry: null };
     const { ret: l, entry: n } = this.get_entry_for_path(e);
     if (n == null)
       return { ret: l, parent_entry: null, filename: null, entry: null };
-    if (!(n instanceof A))
-      return { ret: R, parent_entry: null, filename: null, entry: null };
+    if (!(n instanceof E))
+      return { ret: B, parent_entry: null, filename: null, entry: null };
     const r = n.contents.get(i);
-    return r === void 0 ? t ? { ret: y, parent_entry: n, filename: i, entry: null } : { ret: O, parent_entry: null, filename: null, entry: null } : e.is_dir && r.stat().filetype != D ? { ret: R, parent_entry: null, filename: null, entry: null } : { ret: y, parent_entry: n, filename: i, entry: r };
+    return r === void 0 ? t ? { ret: y, parent_entry: n, filename: i, entry: null } : { ret: F, parent_entry: null, filename: null, entry: null } : e.is_dir && r.stat().filetype != U ? { ret: B, parent_entry: null, filename: null, entry: null } : { ret: y, parent_entry: n, filename: i, entry: r };
   }
   create_entry_for_path(e, t) {
-    const { ret: i, path: l } = E.from(e);
+    const { ret: i, path: l } = A.from(e);
     if (l == null)
       return { ret: i, entry: null };
     let { ret: n, parent_entry: r, filename: s, entry: o } = this.get_parent_dir_and_entry_for_path(l, !0);
@@ -1021,12 +1023,12 @@ class A extends S {
       return { ret: V, entry: null };
     x.log("create", l);
     let a;
-    return t ? a = new A(/* @__PURE__ */ new Map()) : a = new P(new ArrayBuffer(0)), r.contents.set(s, a), o = a, { ret: y, entry: o };
+    return t ? a = new E(/* @__PURE__ */ new Map()) : a = new D(new ArrayBuffer(0)), r.contents.set(s, a), o = a, { ret: y, entry: o };
   }
   constructor(e) {
     super(), this.parent = null, e instanceof Array ? this.contents = new Map(e) : this.contents = e;
     for (const t of this.contents.values())
-      t instanceof A && (t.parent = this);
+      t instanceof E && (t.parent = this);
   }
 }
 class M extends ie {
@@ -1052,7 +1054,7 @@ class M extends ie {
     });
   }
   constructor(e) {
-    super(), this.ino = S.issue_ino(), this.write = e;
+    super(), this.ino = R.issue_ino(), this.write = e;
   }
 }
 /*!
@@ -1066,7 +1068,7 @@ class M extends ie {
  */
 async function dt(f) {
   const e = ["pandoc.wasm", "+RTS", "-H64m", "-RTS"], t = [], i = /* @__PURE__ */ new Map(), l = [
-    new Ne(new P(new Uint8Array(), { readonly: !0 })),
+    new Oe(new D(new Uint8Array(), { readonly: !0 })),
     M.lineBuffered((u) => console.log(`[WASI stdout] ${u}`)),
     M.lineBuffered((u) => console.warn(`[WASI stderr] ${u}`)),
     new lt("/", i)
@@ -1087,44 +1089,44 @@ async function dt(f) {
   a().setUint32(d + 4 * e.length, 0, !0);
   const _ = o.malloc(4);
   a().setUint32(_, d, !0), o.hs_init_with_rtsopts(c, _);
-  async function p(u, g, L) {
-    let U;
-    typeof g == "string" ? U = new TextEncoder().encode(g) : U = new Uint8Array(await g.arrayBuffer()), i.set(u, new P(U, { readonly: L }));
+  async function p(u, g, T) {
+    let P;
+    typeof g == "string" ? P = new TextEncoder().encode(g) : P = new Uint8Array(await g.arrayBuffer()), i.set(u, new D(P, { readonly: T }));
   }
   function b(u) {
-    const g = JSON.stringify(u), L = new TextEncoder().encode(g), U = o.malloc(L.length);
+    const g = JSON.stringify(u), T = new TextEncoder().encode(g), P = o.malloc(T.length);
     return new TextEncoder().encodeInto(
       g,
-      new Uint8Array(o.memory.buffer, U, L.length)
-    ), [U, L.length];
+      new Uint8Array(o.memory.buffer, P, T.length)
+    ), [P, T.length];
   }
-  async function h(u, g, L) {
-    const [U, G] = b(u), N = { ...L };
+  async function h(u, g, T) {
+    const [P, G] = b(u), O = { ...T };
     i.clear();
-    const oe = new P(new Uint8Array(), { readonly: !0 }), ae = new P(new Uint8Array(), { readonly: !1 }), ce = new P(new Uint8Array(), { readonly: !1 }), fe = new P(new Uint8Array(), { readonly: !1 });
+    const oe = new D(new Uint8Array(), { readonly: !0 }), ae = new D(new Uint8Array(), { readonly: !1 }), ce = new D(new Uint8Array(), { readonly: !1 }), fe = new D(new Uint8Array(), { readonly: !1 });
     i.set("stdin", oe), i.set("stdout", ae), i.set("stderr", ce), i.set("warnings", fe);
     const z = /* @__PURE__ */ new Set(["stdin", "stdout", "stderr", "warnings"]);
-    for (const T of Object.keys(N))
-      await p(T, N[T], !0), z.add(T);
-    const I = typeof u["output-file"] == "string" ? u["output-file"] : null, F = typeof u["extract-media"] == "string" ? u["extract-media"] : null;
-    if (I && (await p(I, new Blob(), !1), z.add(I)), F && F.endsWith(".zip") && (await p(F, new Blob(), !1), z.add(F)), g && (oe.data = new TextEncoder().encode(g)), o.convert(U, G), I) {
-      const T = i.get(I);
-      T instanceof P && T.data.length > 0 && (N[I] = new Blob([T.data]));
+    for (const L of Object.keys(O))
+      await p(L, O[L], !0), z.add(L);
+    const N = typeof u["output-file"] == "string" ? u["output-file"] : null, S = typeof u["extract-media"] == "string" ? u["extract-media"] : null;
+    if (N && (await p(N, new Blob(), !1), z.add(N)), S && S.endsWith(".zip") && (await p(S, new Blob(), !1), z.add(S)), g && (oe.data = new TextEncoder().encode(g)), o.convert(P, G), N) {
+      const L = i.get(N);
+      L instanceof D && L.data.length > 0 && (O[N] = new Blob([L.data]));
     }
-    if (F) {
-      const T = i.get(F);
-      T instanceof P && T.data.length > 0 && (N[F] = new Blob([T.data], {
+    if (S) {
+      const L = i.get(S);
+      L instanceof D && L.data.length > 0 && (O[S] = new Blob([L.data], {
         type: "application/zip"
       }));
     }
-    const le = {}, de = (T, he) => {
-      for (const [pe, B] of T.entries()) {
+    const le = {}, de = (L, he) => {
+      for (const [pe, k] of L.entries()) {
         const X = he ? `${he}/${pe}` : pe;
-        if (B instanceof A)
-          de(B.contents, X);
-        else if (B instanceof P && !z.has(X) && B.data.length > 0) {
-          const me = new Blob([B.data]);
-          N[X] = me, le[X] = me;
+        if (k instanceof E)
+          de(k.contents, X);
+        else if (k instanceof D && !z.has(X) && k.data.length > 0) {
+          const me = new Blob([k.data]);
+          O[X] = me, le[X] = me;
         }
       }
     };
@@ -1136,14 +1138,14 @@ async function dt(f) {
     if (ue)
       try {
         _e = JSON.parse(ue);
-      } catch (T) {
-        console.warn("Failed to parse warnings:", T);
+      } catch (L) {
+        console.warn("Failed to parse warnings:", L);
       }
     return {
       stdout: new TextDecoder("utf-8", { fatal: !0 }).decode(ae.data),
       stderr: new TextDecoder("utf-8", { fatal: !0 }).decode(ce.data),
       warnings: _e,
-      files: N,
+      files: O,
       mediaFiles: le
     };
   }
@@ -1165,6 +1167,7 @@ function _t() {
   })), j;
 }
 const ht = [
+  { format: "epub", id: "epub-pandoc", labelKey: "epubLabel", menuAction: "export_epub_pandoc", order: 21 },
   { format: "docx", id: "docx", labelKey: "docxLabel", menuAction: "export_docx", order: 30 },
   { format: "odt", id: "odt", labelKey: "odtLabel", menuAction: "export_odt", order: 40 },
   { format: "rtf", id: "rtf", labelKey: "rtfLabel", menuAction: "export_rtf", order: 50 },
@@ -1178,7 +1181,7 @@ function pt(f) {
 }
 async function mt(f, e, t) {
   if (!f.currentFile) throw new Error("pandoc: no document to export");
-  const i = await ee("read_file", { path: f.currentFile }), { markdown: l, files: n } = await He(i, f.documentDir), r = await _t(), s = Ue(e), o = await r.convert(Xe(e, t), l, n), a = o.files[s];
+  const i = await ee("read_file", { path: f.currentFile }), { markdown: l, files: n } = await He(i, f.documentDir), r = await _t(), s = Pe(e), o = await r.convert(Xe(e, t), l, n), a = o.files[s];
   if (!a)
     throw new Error(o.stderr.trim() || `pandoc produced no ${e} output`);
   const c = new Uint8Array(await a.arrayBuffer());
@@ -1192,7 +1195,7 @@ function bt(f) {
   return ht.map((e) => ({
     id: e.id,
     labelKey: e.labelKey,
-    extension: Pe(e.format),
+    extension: De(e.format),
     kind: e.format === "latex" ? "text" : "binary",
     menuAction: e.menuAction,
     order: e.order,
@@ -1202,7 +1205,7 @@ function bt(f) {
 const gt = "en-US", yt = {
   "ar-SA": {
     name: "تصدير Pandoc",
-    description: "حوّل المستند الحالي إلى Word أو OpenDocument أو RTF أو LaTeX باستخدام Pandoc",
+    description: "حوّل المستند الحالي إلى Word أو OpenDocument أو RTF أو LaTeX أو EPUB باستخدام Pandoc",
     sectionTitle: "Pandoc",
     toc: "جدول المحتويات",
     tocDesc: "إضافة جدول محتويات إلى الملف المُصدَّر",
@@ -1212,11 +1215,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "فشل تحويل Pandoc"
   },
   "de-DE": {
     name: "Pandoc-Export",
-    description: "Aktuelles Dokument mit Pandoc nach Word, OpenDocument, RTF oder LaTeX konvertieren",
+    description: "Aktuelles Dokument mit Pandoc nach Word, OpenDocument, RTF, LaTeX oder EPUB konvertieren",
     sectionTitle: "Pandoc",
     toc: "Inhaltsverzeichnis",
     tocDesc: "Der exportierten Datei ein Inhaltsverzeichnis hinzufügen",
@@ -1226,11 +1230,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc-Konvertierung fehlgeschlagen"
   },
   "en-US": {
     name: "Pandoc Export",
-    description: "Convert the current document to Word, OpenDocument, RTF or LaTeX with Pandoc",
+    description: "Convert the current document to Word, OpenDocument, RTF, LaTeX or EPUB with Pandoc",
     sectionTitle: "Pandoc",
     toc: "Table of contents",
     tocDesc: "Include a table of contents in the exported file",
@@ -1240,11 +1245,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc conversion failed"
   },
   "es-ES": {
     name: "Exportar con Pandoc",
-    description: "Convierte el documento actual a Word, OpenDocument, RTF o LaTeX con Pandoc",
+    description: "Convierte el documento actual a Word, OpenDocument, RTF, LaTeX o EPUB con Pandoc",
     sectionTitle: "Pandoc",
     toc: "Tabla de contenidos",
     tocDesc: "Incluir una tabla de contenidos en el archivo exportado",
@@ -1254,11 +1260,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "La conversión con Pandoc ha fallado"
   },
   "fr-FR": {
     name: "Export Pandoc",
-    description: "Convertir le document actuel en Word, OpenDocument, RTF ou LaTeX avec Pandoc",
+    description: "Convertir le document actuel en Word, OpenDocument, RTF, LaTeX ou EPUB avec Pandoc",
     sectionTitle: "Pandoc",
     toc: "Table des matières",
     tocDesc: "Ajouter une table des matières au fichier exporté",
@@ -1268,11 +1275,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "La conversion Pandoc a échoué"
   },
   "hi-IN": {
     name: "Pandoc निर्यात",
-    description: "Pandoc से वर्तमान दस्तावेज़ को Word, OpenDocument, RTF या LaTeX में बदलें",
+    description: "Pandoc से वर्तमान दस्तावेज़ को Word, OpenDocument, RTF, LaTeX या EPUB में बदलें",
     sectionTitle: "Pandoc",
     toc: "विषय-सूची",
     tocDesc: "निर्यात की गई फ़ाइल में विषय-सूची शामिल करें",
@@ -1282,11 +1290,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc रूपांतरण विफल रहा"
   },
   "it-IT": {
     name: "Esporta con Pandoc",
-    description: "Converti il documento corrente in Word, OpenDocument, RTF o LaTeX con Pandoc",
+    description: "Converti il documento corrente in Word, OpenDocument, RTF, LaTeX o EPUB con Pandoc",
     sectionTitle: "Pandoc",
     toc: "Indice",
     tocDesc: "Includi un indice nel file esportato",
@@ -1296,11 +1305,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Conversione Pandoc non riuscita"
   },
   "ja-JP": {
     name: "Pandoc エクスポート",
-    description: "現在の文書を Pandoc で Word、OpenDocument、RTF、LaTeX に変換します",
+    description: "現在の文書を Pandoc で Word、OpenDocument、RTF、LaTeX、EPUB に変換します",
     sectionTitle: "Pandoc",
     toc: "目次",
     tocDesc: "書き出したファイルに目次を含めます",
@@ -1310,11 +1320,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc の変換に失敗しました"
   },
   "ko-KR": {
     name: "Pandoc 내보내기",
-    description: "현재 문서를 Pandoc으로 Word, OpenDocument, RTF 또는 LaTeX로 변환합니다",
+    description: "현재 문서를 Pandoc으로 Word, OpenDocument, RTF, LaTeX 또는 EPUB로 변환합니다",
     sectionTitle: "Pandoc",
     toc: "목차",
     tocDesc: "내보낸 파일에 목차를 포함합니다",
@@ -1324,11 +1335,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc 변환에 실패했습니다"
   },
   "pt-PT": {
     name: "Exportar com Pandoc",
-    description: "Converter o documento atual para Word, OpenDocument, RTF ou LaTeX com o Pandoc",
+    description: "Converter o documento atual para Word, OpenDocument, RTF, LaTeX ou EPUB com o Pandoc",
     sectionTitle: "Pandoc",
     toc: "Índice",
     tocDesc: "Incluir um índice no ficheiro exportado",
@@ -1338,11 +1350,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "A conversão com Pandoc falhou"
   },
   "ru-RU": {
     name: "Экспорт через Pandoc",
-    description: "Преобразовать текущий документ в Word, OpenDocument, RTF или LaTeX с помощью Pandoc",
+    description: "Преобразовать текущий документ в Word, OpenDocument, RTF, LaTeX или EPUB с помощью Pandoc",
     sectionTitle: "Pandoc",
     toc: "Оглавление",
     tocDesc: "Добавить оглавление в экспортируемый файл",
@@ -1352,11 +1365,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Не удалось выполнить преобразование Pandoc"
   },
   "th-TH": {
     name: "ส่งออกด้วย Pandoc",
-    description: "แปลงเอกสารปัจจุบันเป็น Word, OpenDocument, RTF หรือ LaTeX ด้วย Pandoc",
+    description: "แปลงเอกสารปัจจุบันเป็น Word, OpenDocument, RTF, LaTeX หรือ EPUB ด้วย Pandoc",
     sectionTitle: "Pandoc",
     toc: "สารบัญ",
     tocDesc: "ใส่สารบัญในไฟล์ที่ส่งออก",
@@ -1366,11 +1380,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "การแปลงด้วย Pandoc ล้มเหลว"
   },
   "vi-VN": {
     name: "Xuất bằng Pandoc",
-    description: "Chuyển tài liệu hiện tại sang Word, OpenDocument, RTF hoặc LaTeX bằng Pandoc",
+    description: "Chuyển tài liệu hiện tại sang Word, OpenDocument, RTF, LaTeX hoặc EPUB bằng Pandoc",
     sectionTitle: "Pandoc",
     toc: "Mục lục",
     tocDesc: "Thêm mục lục vào tệp xuất",
@@ -1380,11 +1395,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Chuyển đổi bằng Pandoc thất bại"
   },
   "zh-CN": {
     name: "Pandoc 导出",
-    description: "用 Pandoc 把当前文档转换为 Word、OpenDocument、RTF 或 LaTeX",
+    description: "用 Pandoc 把当前文档转换为 Word、OpenDocument、RTF、LaTeX 或 EPUB",
     sectionTitle: "Pandoc",
     toc: "目录",
     tocDesc: "在导出文件中生成目录",
@@ -1394,11 +1410,12 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc 转换失败"
   },
   "zh-TW": {
     name: "Pandoc 匯出",
-    description: "用 Pandoc 把目前文件轉換為 Word、OpenDocument、RTF 或 LaTeX",
+    description: "用 Pandoc 把目前文件轉換為 Word、OpenDocument、RTF、LaTeX 或 EPUB",
     sectionTitle: "Pandoc",
     toc: "目錄",
     tocDesc: "在匯出檔案中產生目錄",
@@ -1408,10 +1425,11 @@ const gt = "en-US", yt = {
     odtLabel: "OpenDocument (.odt)",
     rtfLabel: "RTF (.rtf)",
     texLabel: "LaTeX (.tex)",
+    epubLabel: "EPUB (Pandoc)",
     convertFailed: "Pandoc 轉換失敗"
   }
 };
-class Dt extends Be {
+class Ut extends ke {
   onload() {
     this.addMessages(yt, gt);
     for (const e of bt(this.app))
@@ -1419,5 +1437,5 @@ class Dt extends Be {
   }
 }
 export {
-  Dt as default
+  Ut as default
 };

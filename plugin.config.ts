@@ -1,9 +1,9 @@
 export default {
   id: 'app.textox.pandoc',
   name: 'Pandoc Export',
-  version: '1.0.1',
+  version: '1.0.2',
   minAppVersion: '2.4.0',
-  description: 'Convert the current document to Word, OpenDocument, RTF or LaTeX with Pandoc',
+  description: 'Convert the current document to EPUB, Word, OpenDocument, RTF or LaTeX with Pandoc',
   author: { name: 'Textox', id: 'textox' },
   category: 'export',
   defaultEnabled: false,
